@@ -5,6 +5,7 @@ import './Login.css';
 import "firebase/auth";
 import firebaseConfig from "./firebase.config";
 import { UserContext } from "../../App";
+import { useHistory, useLocation } from "react-router";
 
 
 if (!firebase.apps.length) {
@@ -19,6 +20,9 @@ const Login = () => {
     console.log(watch("example"));
 
     const [loggedInUser, setLoggedInUser]= useContext(UserContext);
+    const history = useHistory();
+    const location = useLocation();
+    const { from } = location.state || { from: { pathname: "/" } };
 
     const handleGoogleSignIn = () => {
         
@@ -30,6 +34,7 @@ const Login = () => {
                 const {displayName, email} = result.user;
                 const signInUser = {name: displayName, email}
                 setLoggedInUser(signInUser);
+                history.replace(from)
             }).catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
