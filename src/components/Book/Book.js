@@ -12,11 +12,27 @@ const Book = () => {
     const { bedType } = useParams();
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
 
-    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
+    const [selectedDate, setSelectedDate] = useState(
+        {
+            checkIn: new Date(),
+            checkOut: new Date()
+        });
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const handleCheckInDate = (date) => {
+        const newDates = { ...selectedDate }
+        newDates.checkIn = date;
+        setSelectedDate(newDates);
     };
+
+    const handleCheckOutDate = (date) => {
+        const newDates = { ...selectedDate }
+        newDates.checkOut = date;
+        setSelectedDate(newDates);
+    };
+
+    const handleBooking = () => {
+        console.log("Booking is successful");
+    }
     return (
         <div style={{ textAlign: 'center' }}>
             <h1>Hello, {loggedInUser.name}! Let's book a {bedType} Room.</h1>
@@ -30,9 +46,9 @@ const Book = () => {
                         format="MM/dd/yyyy"
                         margin="normal"
                         id="date-picker-inline"
-                        label="Date picker inline"
-                        value={selectedDate}
-                        onChange={handleDateChange}
+                        label="Check In Date"
+                        value={selectedDate.checkIn}
+                        onChange={handleCheckInDate}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}
@@ -40,16 +56,16 @@ const Book = () => {
                     <KeyboardDatePicker
                         margin="normal"
                         id="date-picker-dialog"
-                        label="Date picker dialog"
+                        label="Check Out Date"
                         format="MM/dd/yyyy"
-                        value={selectedDate}
-                        onChange={handleDateChange}
+                        value={selectedDate.checkOut}
+                        onChange={handleCheckOutDate}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}
                     />
                 </Grid>
-                <Button variant="contained" color="primary">Book Now</Button>
+                <Button onClick={handleBooking} variant="contained" color="primary">Book Now</Button>
             </MuiPickersUtilsProvider>
         </div>
     );
