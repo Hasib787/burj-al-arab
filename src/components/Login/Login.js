@@ -34,6 +34,7 @@ const Login = () => {
                 const {displayName, email} = result.user;
                 const signInUser = {name: displayName, email}
                 setLoggedInUser(signInUser);
+                storeAuthToken();
                 history.replace(from)
             }).catch((error) => {
                 var errorCode = error.code;
@@ -44,6 +45,14 @@ const Login = () => {
             });
     }
 
+    const storeAuthToken =()=>{
+        firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+        .then(function(idToken) {
+            sessionStorage.setItem('token', idToken);
+          }).catch(function(error) {
+            // Handle error
+          });
+    }
 
     return (
         < form className="login-form" onSubmit={handleSubmit(onSubmit)} >
