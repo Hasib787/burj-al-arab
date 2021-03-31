@@ -17,7 +17,7 @@ if (!firebase.apps.length) {
 const Login = () => {
     const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => console.log(data);
-    console.log(watch("example"));
+    //console.log(watch("example"));
 
     const [loggedInUser, setLoggedInUser]= useContext(UserContext);
     const history = useHistory();
@@ -35,7 +35,6 @@ const Login = () => {
                 const signInUser = {name: displayName, email}
                 setLoggedInUser(signInUser);
                 storeAuthToken();
-                history.replace(from)
             }).catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -49,6 +48,7 @@ const Login = () => {
         firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
         .then(function(idToken) {
             sessionStorage.setItem('token', idToken);
+            history.replace(from);
           }).catch(function(error) {
             // Handle error
           });
